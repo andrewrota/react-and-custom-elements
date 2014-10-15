@@ -1,0 +1,16 @@
+{
+  "name": "react-and-custom-elements",
+  "version": "0.1.0",
+  "description": "",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andrewrota/react-and-custom-elements.git"
+  },
+  "author": "Andrew Rota <rota.andrew@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewrota/react-and-custom-elements/issues"
+  },
+  "homepage": "https://github.com/andrewrota/react-and-custom-elements"
+}
