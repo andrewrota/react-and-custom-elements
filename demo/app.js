@@ -3,11 +3,11 @@
     var React = window.React;
     var HelloWorld = React.createClass({
         render: function() {
-            return React.DOM.h1(null, "Hello, ", this.props.name, "!");
+            return React.DOM['hello-world'](null);
         }
     });
     React.renderComponent(
-        HelloWorld({name: 'ReactJs'}),
+        HelloWorld(),
         document.querySelector('body')
     );
 }(window));
