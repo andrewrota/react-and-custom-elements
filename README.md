@@ -7,7 +7,6 @@ Preview: http://andrewrota.github.io/react-and-custom-elements/demo/index.html
 ## Requirements
 
     npm
-    grunt-cli
     bower
 
 ## Install
