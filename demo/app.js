@@ -1,12 +1,12 @@
 (function(window, undefined) {
         'use strict';
         var React = window.React;
-        var GoogleMap = React.createClass({
+        var HelloWorld = React.createClass({
             render: function() {
-                return React.createElement('google-map', {latitude: '41.8369', longitude: '-87.6847'}, '', this.props.name);
+                return React.createElement('hello-world', null, '', this.props.name);
             }
         });
-        React.render( React.createElement(GoogleMap, null, ' '),
+        React.render( React.createElement(HelloWorld, null, ' '),
           document.querySelector('body')
         );
 }(window));
