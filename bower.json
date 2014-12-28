@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "react": "git://github.com/andrewrota/react.git#custom-elements",
+    "google-map": "GoogleWebComponents/google-map#~0.4.0",
     "hello-world-xtag": "git://github.com/andrewrota/hello-world-xtag.git#Fix-document-currentScript"
   }
 }
