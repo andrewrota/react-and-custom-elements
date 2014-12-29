@@ -11,6 +11,7 @@
 
 "use strict";
 
+var assign = require('Object.assign');
 var invariant = require('invariant');
 
 var PREFIX = 'key:';
@@ -174,7 +175,7 @@ var OrderedMapMethods = {
 
   /**
    * Returns the object for a given key, or `undefined` if not present. To
-   * distinguish a undefined entry vs not being in the set, use `has()`.
+   * distinguish an undefined entry vs not being in the set, use `has()`.
    *
    * @param {string} key String key to lookup the value for.
    * @return {Object?} Object at key `key`, or undefined if not in map.
@@ -475,7 +476,7 @@ var OrderedMapMethods = {
   }
 };
 
-Object.assign(OrderedMapImpl.prototype, OrderedMapMethods);
+assign(OrderedMapImpl.prototype, OrderedMapMethods);
 
 var OrderedMap = {
   from: function(orderedMap) {

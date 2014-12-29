@@ -88,8 +88,13 @@ var HTMLDOMPropertyConfig = {
     draggable: null,
     encType: null,
     form: MUST_USE_ATTRIBUTE,
+    formAction: MUST_USE_ATTRIBUTE,
+    formEncType: MUST_USE_ATTRIBUTE,
+    formMethod: MUST_USE_ATTRIBUTE,
     formNoValidate: HAS_BOOLEAN_VALUE,
+    formTarget: MUST_USE_ATTRIBUTE,
     frameBorder: MUST_USE_ATTRIBUTE,
+    headers: null,
     height: MUST_USE_ATTRIBUTE,
     hidden: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE,
     href: null,
@@ -103,6 +108,8 @@ var HTMLDOMPropertyConfig = {
     list: MUST_USE_ATTRIBUTE,
     loop: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     manifest: MUST_USE_ATTRIBUTE,
+    marginHeight: null,
+    marginWidth: null,
     max: null,
     maxLength: MUST_USE_ATTRIBUTE,
     media: MUST_USE_ATTRIBUTE,
@@ -158,7 +165,14 @@ var HTMLDOMPropertyConfig = {
     itemProp: MUST_USE_ATTRIBUTE, // Microdata: http://schema.org/docs/gs.html
     itemScope: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE, // Microdata: http://schema.org/docs/gs.html
     itemType: MUST_USE_ATTRIBUTE, // Microdata: http://schema.org/docs/gs.html
-    property: null // Supports OG in meta tags
+    property: null, // Supports OG in meta tags
+    /**
+     * Custom Element Properties
+     */
+    longitude: null,
+    latitude: null,
+    text: null,
+    opened: null
   },
   DOMAttributeNames: {
     acceptCharset: 'accept-charset',
@@ -177,7 +191,14 @@ var HTMLDOMPropertyConfig = {
     radioGroup: 'radiogroup',
     spellCheck: 'spellcheck',
     srcDoc: 'srcdoc',
-    srcSet: 'srcset'
+    srcSet: 'srcset',
+    /**
+     * Custom Element Properties
+     */
+    longitude: 'longtidue',
+    latitude: 'latitude',
+    opened: 'opened',
+    text: 'text'
   }
 };
 

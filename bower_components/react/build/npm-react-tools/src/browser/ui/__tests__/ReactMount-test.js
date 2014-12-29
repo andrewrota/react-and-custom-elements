@@ -30,11 +30,23 @@ describe('ReactMount', function() {
     });
   });
 
+  describe('unmountComponentAtNode', function() {
+    it('throws when given a non-node', function() {
+      var nodeArray = document.getElementsByTagName('div');
+      expect(function() {
+        React.unmountComponentAtNode(nodeArray);
+      }).toThrow(
+        'Invariant Violation: unmountComponentAtNode(...): Target container ' +
+        'is not a DOM element.'
+      );
+    });
+  });
+
   it('throws when given a string', function() {
     expect(function() {
       ReactTestUtils.renderIntoDocument('div');
     }).toThrow(
-      'Invariant Violation: renderComponent(): Invalid component element. ' +
+      'Invariant Violation: React.render(): Invalid component element. ' +
       'Instead of passing an element string, make sure to instantiate it ' +
       'by passing it to React.createElement.'
     );
@@ -49,7 +61,7 @@ describe('ReactMount', function() {
     expect(function() {
       ReactTestUtils.renderIntoDocument(Component);
     }).toThrow(
-      'Invariant Violation: renderComponent(): Invalid component element. ' +
+      'Invariant Violation: React.render(): Invalid component element. ' +
       'Instead of passing a component class, make sure to instantiate it ' +
       'by passing it to React.createElement.'
     );

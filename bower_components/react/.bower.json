@@ -1,11 +1,11 @@
 {
   "name": "react",
   "homepage": "https://github.com/andrewrota/react",
-  "_release": "597dd66f5d",
+  "_release": "e4e38349f9",
   "_resolution": {
     "type": "branch",
     "branch": "custom-elements",
-    "commit": "597dd66f5d45119fa8f9a6bbe8c1000cc61befe8"
+    "commit": "e4e38349f9ef2376e45c461d12f28332f67a1135"
   },
   "_source": "git://github.com/andrewrota/react.git",
   "_target": "custom-elements",

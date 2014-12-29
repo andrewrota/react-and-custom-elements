@@ -1,7 +1,7 @@
 {
   "name": "react-tools",
   "description": "A set of complementary tools to React, including the JSX transformer.",
-  "version": "0.12.0-alpha",
+  "version": "0.13.0-alpha.1",
   "keywords": [
     "react",
     "jsx",
@@ -27,12 +27,11 @@
   },
   "dependencies": {
     "commoner": "^0.10.0",
-    "esprima-fb": "^6001.1.0-dev-harmony-fb",
-    "jstransform": "^6.3.2"
+    "jstransform": "^8.0.0"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
-    "browserify": "^6.1.0",
+    "browserify": "^7.0.2",
     "coverify": "~1.0.4",
     "derequire": "^1.2.0",
     "envify": "^3.0.0",
@@ -44,17 +43,17 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compress": "^0.12.0",
     "grunt-contrib-connect": "~0.6.0",
-    "grunt-contrib-copy": "^0.6.0",
+    "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-jshint": "^0.10.0",
     "gzip-js": "~0.3.2",
     "jasmine-tapreporter": "~0.2.2",
-    "jest-cli": "~0.1.5",
+    "jest-cli": "^0.2.1",
     "lodash": "~2.4.1",
     "optimist": "~0.6.0",
     "phantomjs": "~1.9",
     "platform": "^1.1.0",
     "populist": "~0.1.6",
-    "recast": "^0.7.2",
+    "recast": "^0.9.11",
     "sauce-tunnel": "~1.1.0",
     "tmp": "~0.0.18",
     "uglify-js": "~2.4.0",
@@ -69,7 +68,7 @@
     "version": 4
   },
   "scripts": {
-    "test": "./node_modules/.bin/grunt test",
+    "test": "jest",
     "jest": "jest"
   },
   "jest": {

@@ -14,8 +14,6 @@
 "use strict";
 
 var React = require('React');
-var ReactDOM = require('ReactDOM');
-var ReactMount = require('ReactMount');
 var ReactTestUtils = require('ReactTestUtils');
 var div = React.createFactory('div');
 
@@ -49,11 +47,17 @@ describe('ReactDOM', function() {
   });
   */
 
+  it("allows a DOM element to be used with a string", function() {
+    var element = React.createElement('div', { className: 'foo' });
+    var instance = ReactTestUtils.renderIntoDocument(element);
+    expect(instance.getDOMNode().tagName).toBe('DIV');
+  });
+
   it("should allow children to be passed as an argument", function() {
     var argDiv = ReactTestUtils.renderIntoDocument(
       div(null, 'child')
     );
-    var argNode = ReactMount.getNode(argDiv._rootNodeID);
+    var argNode = argDiv.getDOMNode();
     expect(argNode.innerHTML).toBe('child');
   });
 
@@ -61,7 +65,7 @@ describe('ReactDOM', function() {
     var conflictDiv = ReactTestUtils.renderIntoDocument(
       div({children: 'fakechild'}, 'child')
     );
-    var conflictNode = ReactMount.getNode(conflictDiv._rootNodeID);
+    var conflictNode = conflictDiv.getDOMNode();
     expect(conflictNode.innerHTML).toBe('child');
   });
 
@@ -103,13 +107,9 @@ describe('ReactDOM', function() {
         theBird: <div className="bird" />
       }
     });
-    var root = ReactMount.getNode(myDiv._rootNodeID);
+    var root = myDiv.getDOMNode();
     var dog = root.childNodes[0];
     expect(dog.className).toBe('bigdog');
-  });
-
-  it('should be a valid class', function() {
-    expect(React.isValidClass(ReactDOM.div)).toBe(false);
   });
 
   it('allow React.DOM factories to be called without warnings', function() {
@@ -117,25 +117,5 @@ describe('ReactDOM', function() {
     var element = React.DOM.div();
     expect(element.type).toBe('div');
     expect(console.warn.argsForCall.length).toBe(0);
-  });
-
-  it('warns but allow dom factories to be used in createFactory', function() {
-    spyOn(console, 'warn');
-    var factory = React.createFactory(React.DOM.div);
-    expect(factory().type).toBe('div');
-    expect(console.warn.argsForCall.length).toBe(1);
-    expect(console.warn.argsForCall[0][0]).toContain(
-      'Do not pass React.DOM.div'
-    );
-  });
-
-  it('warns but allow dom factories to be used in createElement', function() {
-    spyOn(console, 'warn');
-    var element = React.createElement(React.DOM.div);
-    expect(element.type).toBe('div');
-    expect(console.warn.argsForCall.length).toBe(1);
-    expect(console.warn.argsForCall[0][0]).toContain(
-      'Do not pass React.DOM.div'
-    );
   });
 });

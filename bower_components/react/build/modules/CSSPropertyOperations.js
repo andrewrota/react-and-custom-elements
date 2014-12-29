@@ -34,6 +34,9 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 if ("production" !== process.env.NODE_ENV) {
+  // 'msTransform' is correct, but the other prefixes should be capitalized
+  var badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/;
+
   var warnedStyleNames = {};
 
   var warnHyphenatedStyleName = function(name) {
@@ -46,6 +49,19 @@ if ("production" !== process.env.NODE_ENV) {
       false,
       'Unsupported style property ' + name + '. Did you mean ' +
       camelizeStyleName(name) + '?'
+    ) : null);
+  };
+
+  var warnBadVendoredStyleName = function(name) {
+    if (warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name]) {
+      return;
+    }
+
+    warnedStyleNames[name] = true;
+    ("production" !== process.env.NODE_ENV ? warning(
+      false,
+      'Unsupported vendor-prefixed style property ' + name + '. Did you mean ' +
+      name.charAt(0).toUpperCase() + name.slice(1) + '?'
     ) : null);
   };
 }
@@ -76,6 +92,8 @@ var CSSPropertyOperations = {
       if ("production" !== process.env.NODE_ENV) {
         if (styleName.indexOf('-') > -1) {
           warnHyphenatedStyleName(styleName);
+        } else if (badVendoredStyleNamePattern.test(styleName)) {
+          warnBadVendoredStyleName(styleName);
         }
       }
       var styleValue = styles[styleName];
@@ -103,6 +121,8 @@ var CSSPropertyOperations = {
       if ("production" !== process.env.NODE_ENV) {
         if (styleName.indexOf('-') > -1) {
           warnHyphenatedStyleName(styleName);
+        } else if (badVendoredStyleNamePattern.test(styleName)) {
+          warnBadVendoredStyleName(styleName);
         }
       }
       var styleValue = dangerousStyleValue(styleName, styles[styleName]);

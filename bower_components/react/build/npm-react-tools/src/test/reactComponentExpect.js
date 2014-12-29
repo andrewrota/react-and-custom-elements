@@ -12,10 +12,13 @@
 
 "use strict";
 
+var ReactInstanceMap = require('ReactInstanceMap');
 var ReactTestUtils = require('ReactTestUtils');
 
+var assign = require('Object.assign');
+
 function reactComponentExpect(instance) {
-  if (instance instanceof reactComponentExpect) {
+  if (instance instanceof reactComponentExpectInternal) {
     return instance;
   }
 
@@ -23,20 +26,29 @@ function reactComponentExpect(instance) {
     return new reactComponentExpect(instance);
   }
 
-  this._instance = instance;
-  expect(typeof instance).toBe('object');
-  expect(typeof instance.constructor).toBe('function');
-  expect(ReactTestUtils.isElement(instance)).toBe(false);
+  expect(instance).not.toBeNull();
+
+  var internalInstance = ReactInstanceMap.get(instance);
+
+  expect(typeof internalInstance).toBe('object');
+  expect(typeof internalInstance.constructor).toBe('function');
+  expect(ReactTestUtils.isElement(internalInstance)).toBe(false);
+
+  return new reactComponentExpectInternal(internalInstance);
 }
 
-Object.assign(reactComponentExpect.prototype, {
+function reactComponentExpectInternal(internalInstance) {
+  this._instance = internalInstance;
+}
+
+assign(reactComponentExpectInternal.prototype, {
   // Getters -------------------------------------------------------------------
 
   /**
    * @instance: Retrieves the backing instance.
    */
   instance: function() {
-    return this._instance;
+    return this._instance.getPublicInstance();
   },
 
   /**
@@ -55,7 +67,9 @@ Object.assign(reactComponentExpect.prototype, {
    */
   expectRenderedChild: function() {
     this.toBeCompositeComponent();
-    return new reactComponentExpect(this.instance()._renderedComponent);
+    var child = this._instance._renderedComponent;
+    // TODO: Hide ReactEmptyComponent instances here?
+    return new reactComponentExpectInternal(child);
   },
 
   /**
@@ -65,14 +79,15 @@ Object.assign(reactComponentExpect.prototype, {
     // Currently only dom components have arrays of children, but that will
     // change soon.
     this.toBeDOMComponent();
-    var renderedChildren = this.instance()._renderedChildren || {};
+    var renderedChildren =
+      this._instance._renderedComponent._renderedChildren || {};
     for (var name in renderedChildren) {
       if (!renderedChildren.hasOwnProperty(name)) {
         continue;
       }
       if (renderedChildren[name]) {
         if (renderedChildren[name]._mountIndex === childIndex) {
-          return new reactComponentExpect(renderedChildren[name]);
+          return new reactComponentExpectInternal(renderedChildren[name]);
         }
       }
     }
@@ -81,26 +96,24 @@ Object.assign(reactComponentExpect.prototype, {
 
   toBeDOMComponentWithChildCount: function(n) {
     this.toBeDOMComponent();
-    expect(this.instance()._renderedChildren).toBeTruthy();
-    var len = Object.keys(this.instance()._renderedChildren).length;
+    expect(this._instance._renderedComponent._renderedChildren).toBeTruthy();
+    var len = Object.keys(this._instance._renderedComponent._renderedChildren)
+              .length;
     expect(len).toBe(n);
     return this;
   },
 
   toBeDOMComponentWithNoChildren: function() {
     this.toBeDOMComponent();
-    expect(this.instance()._renderedChildren).toBeFalsy();
+    expect(this._instance._renderedComponent._renderedChildren).toBeFalsy();
     return this;
   },
 
   // Matchers ------------------------------------------------------------------
 
-  toBeComponentOfType: function(convenienceConstructor) {
-    var type = typeof convenienceConstructor === 'string' ?
-               convenienceConstructor :
-               convenienceConstructor.type;
+  toBeComponentOfType: function(constructor) {
     expect(
-      this.instance()._currentElement.type === type
+      this._instance._currentElement.type === constructor
     ).toBe(true);
     return this;
   },
@@ -111,22 +124,25 @@ Object.assign(reactComponentExpect.prototype, {
    */
   toBeCompositeComponent: function() {
     expect(
+      typeof this.instance() === 'object' &&
       typeof this.instance().render === 'function' &&
       typeof this.instance().setState === 'function'
     ).toBe(true);
     return this;
   },
 
-  toBeCompositeComponentWithType: function(convenienceConstructor) {
+  toBeCompositeComponentWithType: function(constructor) {
     this.toBeCompositeComponent();
     expect(
-      this.instance()._currentElement.type === convenienceConstructor.type
+      this._instance._currentElement.type === constructor
     ).toBe(true);
     return this;
   },
 
-  toBeTextComponent: function() {
-    expect(ReactTestUtils.isTextComponent(this.instance())).toBe(true);
+  toBeTextComponentWithValue: function(val) {
+    var elementType = typeof this._instance._currentElement;
+    expect(elementType === 'string' || elementType === 'number').toBe(true);
+    expect(this._instance._stringText).toBe(val);
     return this;
   },
 

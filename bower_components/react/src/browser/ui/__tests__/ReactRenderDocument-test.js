@@ -14,6 +14,7 @@
 "use strict";
 
 var React;
+var ReactInstanceMap;
 var ReactMount;
 
 var getTestDocument;
@@ -32,6 +33,7 @@ describe('rendering React components at document', function() {
     require('mock-modules').dumpCache();
 
     React = require('React');
+    ReactInstanceMap = require('ReactInstanceMap');
     ReactMount = require('ReactMount');
     getTestDocument = require('getTestDocument');
 
@@ -61,8 +63,10 @@ describe('rendering React components at document', function() {
     var component = React.render(<Root />, testDocument);
     expect(testDocument.body.innerHTML).toBe('Hello world');
 
+    // TODO: This is a bad test. I have no idea what this is testing.
+    // Node IDs is an implementation detail and not part of the public API.
     var componentID = ReactMount.getReactRootID(testDocument);
-    expect(componentID).toBe(component._rootNodeID);
+    expect(componentID).toBe(ReactInstanceMap.get(component)._rootNodeID);
   });
 
   it('should not be able to unmount component from document node', function() {
@@ -206,7 +210,9 @@ describe('rendering React components at document', function() {
       'are impure. React cannot handle this case due to cross-browser ' +
       'quirks by rendering at the document root. You should look for ' +
       'environment dependent code in your components and ensure ' +
-      'the props are the same client and server side.'
+      'the props are the same client and server side:\n' +
+      ' (client) data-reactid=".0.1">Hello world</body></\n' +
+      ' (server) data-reactid=".0.1">Goodbye world</body>'
     );
   });
 
@@ -236,8 +242,25 @@ describe('rendering React components at document', function() {
       'Invariant Violation: You\'re trying to render a component to the ' +
       'document but you didn\'t use server rendering. We can\'t do this ' +
       'without using server rendering due to cross-browser quirks. See ' +
-      'renderComponentToString() for server rendering.'
+      'React.renderToString() for server rendering.'
     );
   });
 
+  it('supports getDOMNode on full-page components', function() {
+    var tree =
+      <html>
+        <head>
+          <title>Hello World</title>
+        </head>
+        <body>
+          Hello world
+        </body>
+      </html>;
+
+    var markup = React.renderToString(tree);
+    testDocument = getTestDocument(markup);
+    var component = React.render(tree, testDocument);
+    expect(testDocument.body.innerHTML).toBe('Hello world');
+    expect(component.getDOMNode().tagName).toBe('HTML');
+  });
 });

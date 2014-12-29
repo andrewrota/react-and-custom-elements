@@ -11,6 +11,10 @@
 
 "use strict";
 
+var assign = require("./Object.assign");
+var emptyObject = require("./emptyObject");
+var monitorCodeUse = require("./monitorCodeUse");
+
 /**
  * Keeps track of the current context.
  *
@@ -23,7 +27,7 @@ var ReactContext = {
    * @internal
    * @type {object}
    */
-  current: {},
+  current: emptyObject,
 
   /**
    * Temporarily extends the current context while executing scopedCallback.
@@ -42,9 +46,11 @@ var ReactContext = {
    * @return {ReactComponent|array<ReactComponent>}
    */
   withContext: function(newContext, scopedCallback) {
+    monitorCodeUse('react_with_context', {newContext: newContext});
+
     var result;
     var previousContext = ReactContext.current;
-    ReactContext.current = Object.assign({}, previousContext, newContext);
+    ReactContext.current = assign({}, previousContext, newContext);
     try {
       result = scopedCallback();
     } finally {

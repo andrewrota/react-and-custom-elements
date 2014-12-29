@@ -16,7 +16,6 @@
     "commit": "def5106100fc3b8fc4526033b35c4fbbbfc436a8"
   },
   "_source": "git://github.com/Polymer/paper-toast.git",
-  "_target": "~0.5.2",
-  "_originalSource": "Polymer/paper-toast",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "Polymer/paper-toast"
 }

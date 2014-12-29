@@ -14,7 +14,6 @@
 
 var ReactElement = require('ReactElement');
 var ReactElementValidator = require('ReactElementValidator');
-var ReactLegacyElement = require('ReactLegacyElement');
 
 var mapObject = require('mapObject');
 
@@ -26,13 +25,9 @@ var mapObject = require('mapObject');
  */
 function createDOMFactory(tag) {
   if (__DEV__) {
-    return ReactLegacyElement.markNonLegacyFactory(
-      ReactElementValidator.createFactory(tag)
-    );
+    return ReactElementValidator.createFactory(tag);
   }
-  return ReactLegacyElement.markNonLegacyFactory(
-    ReactElement.createFactory(tag)
-  );
+  return ReactElement.createFactory(tag);
 }
 
 /**
@@ -42,7 +37,6 @@ function createDOMFactory(tag) {
  * @public
  */
 var ReactDOM = mapObject({
-  'hello-world': 'hello-world',
   a: 'a',
   abbr: 'abbr',
   address: 'address',
@@ -173,7 +167,11 @@ var ReactDOM = mapObject({
   stop: 'stop',
   svg: 'svg',
   text: 'text',
-  tspan: 'tspan'
+  tspan: 'tspan',
+
+  // Custom
+  'google-map': 'google-map',
+  'paper-toast': 'paper-toast'
 
 }, createDOMFactory);
 

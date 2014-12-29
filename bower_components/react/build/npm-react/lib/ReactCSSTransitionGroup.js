@@ -14,6 +14,8 @@
 
 var React = require("./React");
 
+var assign = require("./Object.assign");
+
 var ReactTransitionGroup = React.createFactory(
   require("./ReactTransitionGroup")
 );
@@ -26,12 +28,14 @@ var ReactCSSTransitionGroup = React.createClass({
 
   propTypes: {
     transitionName: React.PropTypes.string.isRequired,
+    transitionAppear: React.PropTypes.bool,
     transitionEnter: React.PropTypes.bool,
     transitionLeave: React.PropTypes.bool
   },
 
   getDefaultProps: function() {
     return {
+      transitionAppear: false,
       transitionEnter: true,
       transitionLeave: true
     };
@@ -44,6 +48,7 @@ var ReactCSSTransitionGroup = React.createClass({
     return ReactCSSTransitionGroupChild(
       {
         name: this.props.transitionName,
+        appear: this.props.transitionAppear,
         enter: this.props.transitionEnter,
         leave: this.props.transitionLeave
       },
@@ -54,7 +59,7 @@ var ReactCSSTransitionGroup = React.createClass({
   render: function() {
     return (
       ReactTransitionGroup(
-        Object.assign({}, this.props, {childFactory: this._wrapChild})
+        assign({}, this.props, {childFactory: this._wrapChild})
       )
     );
   }
