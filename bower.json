@@ -18,6 +18,7 @@
     "react": "git://github.com/andrewrota/react.git#custom-elements",
     "google-map": "GoogleWebComponents/google-map#~0.4.0",
     "paper-toast": "Polymer/paper-toast",
-    "hello-world-xtag": "git://github.com/andrewrota/hello-world-xtag.git#Fix-document-currentScript"
+    "hello-world-xtag": "git://github.com/andrewrota/hello-world-xtag.git#Fix-document-currentScript",
+    "x-rating": "hershmire/x-rating#master"
   }
 }

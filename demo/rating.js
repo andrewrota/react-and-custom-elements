@@ -1,0 +1,1 @@
+React.render(React.createElement('x-rating', null), document.getElementById('root'));
